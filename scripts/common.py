@@ -40,7 +40,9 @@ def write_image_imageio(img_file, img, quality):
 			img = img[:,:,:3]
 		kwargs["quality"] = quality
 		kwargs["subsampling"] = 0
-	imageio.imwrite(img_file, img, **kwargs)
+	if img.ndim == 3 and img.shape[2] == 1:
+		img = np.squeeze(img, axis=-1)
+	imageio.imsave(img_file, img, **kwargs)
 
 def read_image_imageio(img_file):
 	img = imageio.imread(img_file)
